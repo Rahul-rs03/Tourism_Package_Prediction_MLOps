@@ -1,0 +1,86 @@
+name: Tourism Project MLOps Pipeline
+
+on:
+  push:
+    branches:
+      - main # Automatically triggers on push to the main branch
+
+jobs:
+
+  register-dataset:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.10"
+
+      - name: Install dependencies
+        run: pip install -r Tourism_Package/deployment/requirements.txt
+
+      - name: Upload dataset to Hugging Face
+        env:
+          HF_TOKEN: ${{ secrets.HF_TOKEN }}
+        run: python Tourism_Package/model_building/data_register.py
+
+
+  data-prep:
+    needs: register-dataset
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.10"
+
+      - name: Install dependencies
+        run: pip install -r Tourism_Package/deployment/requirements.txt
+
+      - name: Run data preparation
+        env:
+          HF_TOKEN: ${{ secrets.HF_TOKEN }}
+        run: python Tourism_Package/model_building/prep.py
+
+
+  model-training:
+    needs: data-prep
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.10"
+
+      - name: Install dependencies
+        run: pip install -r Tourism_Package/deployment/requirements.txt
+
+      - name: Train and upload model
+        env:
+          HF_TOKEN: ${{ secrets.HF_TOKEN }}
+        run: python Tourism_Package/model_building/train.py
+
+
+  deploy-hosting:
+    needs: model-training
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.10"
+
+      - name: Install dependencies
+        run: pip install -r Tourism_Package/deployment/requirements.txt
+
+      - name: Deploy Streamlit app to HF Space
+        env:
+          HF_TOKEN: ${{ secrets.HF_TOKEN }}
+        run: python Tourism_Package/hosting.py
