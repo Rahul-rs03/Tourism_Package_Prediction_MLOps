@@ -12,8 +12,14 @@ from sklearn.preprocessing import LabelEncoder
 from huggingface_hub import login, HfApi
 from datasets import load_dataset
 
+DATASET_REPO = "rahulsuren/tourism-package-prediction"
 api = HfApi()
-dataset = load_dataset("rahulsuren/tourism-package-prediction")
+
+dataset = load_dataset(
+    DATASET_REPO,
+    data_files="raw/*.csv"
+)
+
 df = dataset["train"].to_pandas()
 
 
