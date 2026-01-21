@@ -3,6 +3,7 @@ import os
 from huggingface_hub import HfApi, create_repo
 from huggingface_hub.utils import RepositoryNotFoundError
 from pathlib import Path
+from huggingface_hub import login, whoami
 
 # -----------------------------
 # Paths
@@ -22,14 +23,7 @@ repo_type = "dataset"
 # -----------------------------
 # Auth using ENV token
 # -----------------------------
-import os
-os.environ["HF_TOKEN"] = "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"
-
-HF_TOKEN = os.getenv("HF_TOKEN")
-if HF_TOKEN is None:
-    raise ValueError("HF_TOKEN not found in environment variables")
-
-api = HfApi(token=HF_TOKEN)
+api = HfApi()
 
 # -----------------------------
 # Create repo if not exists
