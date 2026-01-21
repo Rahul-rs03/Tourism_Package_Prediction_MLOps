@@ -6,7 +6,10 @@ from huggingface_hub.utils import RepositoryNotFoundError
 # -----------------------------
 # Paths
 # -----------------------------
-BASE_PATH = "/content/drive/MyDrive/Projects/Tourism_Package"
+#BASE_PATH = "/content/drive/MyDrive/Projects/Tourism_Package"
+#DATA_PATH = os.path.join(BASE_PATH, "data")
+
+BASE_PATH = "Tourism_Package"
 DATA_PATH = os.path.join(BASE_PATH, "data")
 
 # -----------------------------
@@ -19,13 +22,13 @@ repo_type = "dataset"
 # Auth using ENV token
 # -----------------------------
 import os
-os.environ["HF_TOKEN"] = "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"
+os.environ["TOURISM_TOKEN"] = "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"
 
-HF_TOKEN = os.getenv("HF_TOKEN")
-if HF_TOKEN is None:
-    raise ValueError("HF_TOKEN not found in environment variables")
+TOURISM_TOKEN = os.getenv("TOURISM_TOKEN")
+if TOURISM_TOKEN is None:
+    raise ValueError("TOURISM_TOKEN not found in environment variables")
 
-api = HfApi(token=HF_TOKEN)
+api = HfApi(token=TOURISM_TOKEN)
 
 # -----------------------------
 # Create repo if not exists
