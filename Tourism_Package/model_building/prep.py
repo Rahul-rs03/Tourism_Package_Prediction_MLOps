@@ -13,7 +13,7 @@ from huggingface_hub import login, HfApi
 from datasets import load_dataset
 
 api = HfApi()
-dataset = load_dataset("rahulsuren12/tourism-package-prediction")
+dataset = load_dataset("rahulsuren/tourism-package-prediction")
 df = dataset["train"].to_pandas()
 
 
@@ -78,7 +78,7 @@ for file_path in files:
     api.upload_file(
         path_or_fileobj=file_path,
         path_in_repo=f"processed/{file_path}",
-        repo_id="rahulsuren12/tourism-package-prediction",
+        repo_id="rahulsuren/tourism-package-prediction",
         repo_type="dataset",
     )
 

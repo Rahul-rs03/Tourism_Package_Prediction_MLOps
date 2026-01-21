@@ -6,29 +6,26 @@ from huggingface_hub.utils import RepositoryNotFoundError
 # -----------------------------
 # Paths
 # -----------------------------
-#BASE_PATH = "/content/drive/MyDrive/Projects/Tourism_Package"
-#DATA_PATH = os.path.join(BASE_PATH, "data")
-
-BASE_PATH = "Tourism_Package"
+BASE_PATH = "/content/drive/MyDrive/Projects/Tourism_Package"
 DATA_PATH = os.path.join(BASE_PATH, "data")
 
 # -----------------------------
 # Hugging Face Repo Info
 # -----------------------------
-repo_id = "rahulsuren12/tourism-package-prediction"
+repo_id = "rahulsuren/tourism-package-prediction"
 repo_type = "dataset"
 
 # -----------------------------
 # Auth using ENV token
 # -----------------------------
 import os
-os.environ["TOURISM_TOKEN"] = "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"
+os.environ["HF_TOKEN"] = "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"
 
-TOURISM_TOKEN = os.getenv("TOURISM_TOKEN")
-if TOURISM_TOKEN is None:
-    raise ValueError("TOURISM_TOKEN not found in environment variables")
+HF_TOKEN = os.getenv("HF_TOKEN")
+if HF_TOKEN is None:
+    raise ValueError("HF_TOKEN not found in environment variables")
 
-api = HfApi(token=TOURISM_TOKEN)
+api = HfApi(token=HF_TOKEN)
 
 # -----------------------------
 # Create repo if not exists

@@ -30,7 +30,7 @@ mlflow.set_experiment("Tourism_Package_Prediction")
 # -----------------------------
 print("Loading processed datasets from Hugging Face...")
 
-DATASET_REPO = "rahulsuren12/tourism-package-prediction"
+DATASET_REPO = "rahulsuren/tourism-package-prediction"
 
 
 Xtrain = load_dataset(DATASET_REPO, data_files="processed/Xtrain.csv")["train"].to_pandas()
@@ -177,7 +177,7 @@ print("Uploading model to Hugging Face Model Hub...")
 
 api = HfApi()
 
-MODEL_REPO = "rahulsuren12/tourism-package-model"
+MODEL_REPO = "rahulsuren/tourism-package-model"
 repo_type = "model"
 
 try:
