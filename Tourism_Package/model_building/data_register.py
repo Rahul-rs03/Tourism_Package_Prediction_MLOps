@@ -22,7 +22,7 @@ repo_type = "dataset"
 # Auth using ENV token
 # -----------------------------
 import os
-os.environ["HF_TOKEN"] = "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"
+os.environ["HF_TOKEN"] = "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"
 
 HF_TOKEN = os.getenv("HF_TOKEN")
 if HF_TOKEN is None:
