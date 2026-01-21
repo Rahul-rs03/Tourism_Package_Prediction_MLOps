@@ -6,8 +6,11 @@ from huggingface_hub.utils import RepositoryNotFoundError
 # -----------------------------
 # Paths
 # -----------------------------
-BASE_PATH = "/content/drive/MyDrive/Projects/Tourism_Package"
-DATA_PATH = os.path.join(BASE_PATH, "data")
+PROJECT_ROOT = Path(__file__).resolve().parents[1]
+DATA_PATH = PROJECT_ROOT / "data"
+
+if not DATA_PATH.exists():
+    raise FileNotFoundError(f"Data directory not found at: {DATA_PATH}")
 
 # -----------------------------
 # Hugging Face Repo Info
@@ -19,7 +22,7 @@ repo_type = "dataset"
 # Auth using ENV token
 # -----------------------------
 import os
-os.environ["HF_TOKEN"] = "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"
+os.environ["HF_TOKEN"] = "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"
 
 HF_TOKEN = os.getenv("HF_TOKEN")
 if HF_TOKEN is None:
@@ -42,9 +45,10 @@ except RepositoryNotFoundError:
 # Upload dataset
 # -----------------------------
 api.upload_folder(
-    folder_path=DATA_PATH,
+    folder_path=str(DATA_PATH),
     repo_id=repo_id,
-    repo_type=repo_type
+    repo_type=repo_type,
+    path_in_repo="raw"
 )
 
 print("Data successfully registered on Hugging Face Dataset Hub.")
