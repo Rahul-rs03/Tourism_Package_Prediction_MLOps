@@ -3,84 +3,116 @@ name: Tourism Project MLOps Pipeline
 on:
   push:
     branches:
-      - main # Automatically triggers on push to the main branch
+      - main
 
 jobs:
 
+  # -------------------------------------------------
+  # 1. DATA REGISTRATION
+  # -------------------------------------------------
   register-dataset:
     runs-on: ubuntu-latest
+
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: "3.10"
 
-      - name: Install dependencies
-        run: pip install -r Tourism_Package/deployment/requirements.txt
+      - name: Install ML dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r Tourism_Package/requirements.txt
 
-      - name: Upload dataset to Hugging Face
+      - name: Register dataset on Hugging Face
         env:
           HF_TOKEN: ${{ secrets.HF_TOKEN }}
-        run: python Tourism_Package/model_building/data_register.py
+        run: |
+          python Tourism_Package/model_building/data_register.py
 
 
+  # -------------------------------------------------
+  # 2. DATA PREPARATION
+  # -------------------------------------------------
   data-prep:
     needs: register-dataset
     runs-on: ubuntu-latest
+
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: "3.10"
 
-      - name: Install dependencies
-        run: pip install -r Tourism_Package/deployment/requirements.txt
+      - name: Install ML dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r Tourism_Package/requirements.txt
 
       - name: Run data preparation
         env:
           HF_TOKEN: ${{ secrets.HF_TOKEN }}
-        run: python Tourism_Package/model_building/prep.py
+        run: |
+          python Tourism_Package/model_building/prep.py
 
 
+  # -------------------------------------------------
+  # 3. MODEL TRAINING & REGISTRATION
+  # -------------------------------------------------
   model-training:
     needs: data-prep
     runs-on: ubuntu-latest
+
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: "3.10"
 
-      - name: Install dependencies
-        run: pip install -r Tourism_Package/deployment/requirements.txt
+      - name: Install ML dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r Tourism_Package/requirements.txt
 
-      - name: Train and upload model
+      - name: Train model and upload to Hugging Face
         env:
           HF_TOKEN: ${{ secrets.HF_TOKEN }}
-        run: python Tourism_Package/model_building/train.py
+        run: |
+          python Tourism_Package/model_building/train.py
 
 
+  # -------------------------------------------------
+  # 4. DEPLOYMENT (STREAMLIT → HF SPACE)
+  # -------------------------------------------------
   deploy-hosting:
     needs: model-training
     runs-on: ubuntu-latest
+
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: "3.10"
 
-      - name: Install dependencies
-        run: pip install -r Tourism_Package/deployment/requirements.txt
+      - name: Install deployment dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r Tourism_Package/deployment/requirements.txt
 
-      - name: Deploy Streamlit app to HF Space
+      - name: Deploy Streamlit app to Hugging Face Space
         env:
           HF_TOKEN: ${{ secrets.HF_TOKEN }}
-        run: python Tourism_Package/hosting.py
+        run: |
+          python Tourism_Package/hosting.py
