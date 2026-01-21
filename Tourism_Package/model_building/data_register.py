@@ -2,6 +2,7 @@
 import os
 from huggingface_hub import HfApi, create_repo
 from huggingface_hub.utils import RepositoryNotFoundError
+from pathlib import Path
 
 # -----------------------------
 # Paths
