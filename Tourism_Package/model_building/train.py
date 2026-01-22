@@ -21,7 +21,11 @@ import xgboost as xgb
 # -----------------------------
 # MLflow setup
 # -----------------------------
-mlflow.set_tracking_uri("file:///mlruns")
+MLFLOW_TRACKING_DIR = os.path.join(os.getcwd(), "mlruns")
+os.makedirs(MLFLOW_TRACKING_DIR, exist_ok=True)
+
+mlflow.set_tracking_uri(f"file://{MLFLOW_TRACKING_DIR}")
+
 mlflow.set_experiment("Tourism_Package_Prediction")
 
 
