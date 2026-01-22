@@ -115,4 +115,4 @@ jobs:
         env:
           HF_TOKEN: ${{ secrets.HF_TOKEN }}
         run: |
-          python Tourism_Package/hosting.py
+          python Tourism_Package/hosting/hosting.py
