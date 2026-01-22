@@ -1,12 +1,26 @@
+from pathlib import Path
 from huggingface_hub import HfApi
-import os
 
-api = HfApi(token=os.getenv("HF_TOKEN"))
+
+PROJECT_ROOT = Path(__file__).resolve().parents[1]   # Tourism_Package
+DEPLOYMENT_DIR = PROJECT_ROOT / "deployment"
+
+if not DEPLOYMENT_DIR.exists():
+    raise FileNotFoundError(f"Deployment directory not found at: {DEPLOYMENT_DIR}")
+
+# -------------------------------------------------
+# Hugging Face Space upload
+# -------------------------------------------------
+api = HfApi()
+
+SPACE_REPO = "rahulsuren/tourism-package-model"  
+REPO_TYPE = "space"
+
 api.upload_folder(
-    folder_path="/content/drive/MyDrive/Projects/Tourism_Package/deployment",     # the local folder containing your files
-    repo_id="rahulsuren/tourism-package-prediction",          # the target repo
-    repo_type="space",                      # dataset, model, or space
-    path_in_repo="",                          # optional: subfolder path inside the repo
+    folder_path=str(DEPLOYMENT_DIR),
+    repo_id=SPACE_REPO,
+    repo_type=REPO_TYPE,
+    path_in_repo=""
 )
 
-print("Deployment files uploaded to Hugging Face Space successfully.")
+print("Deployment files uploaded to Hugging Face Space successfully..")
