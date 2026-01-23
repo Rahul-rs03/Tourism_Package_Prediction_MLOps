@@ -13,7 +13,7 @@ if not DEPLOYMENT_DIR.exists():
 # -------------------------------------------------
 api = HfApi()
 
-SPACE_REPO = "rahulsuren/tourism-package-model"  
+SPACE_REPO = "rahulsuren/tourism-package-model"
 REPO_TYPE = "space"
 
 api.upload_folder(
@@ -23,4 +23,4 @@ api.upload_folder(
     path_in_repo=""
 )
 
-print("Deployment files uploaded to Hugging Face Space successfully..")
+print("Deployment files uploaded to Hugging Face Space successfully.")
